@@ -4,7 +4,7 @@
   <name>turjabot</name>
   <version>0.0.1</version>
   <description>Robot based on Sunfounder PiCar-X with extensions.</description>
-  <maintainer email="mikkosairo@gmail.com">Mikko Sairo</maintainer>
+  <maintainer email="mikkosairo@gmail.com">Nukiuchi</maintainer>
   <license>Apache</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
