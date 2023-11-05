@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <link name="base_link"></link>
+
+    <xacro:property name="chassis_back_length" value="0.1"/>
+    <xacro:property name="chassis_back_width" value="0.082"/>
+    <xacro:property name="chassis_back_height" value="0.12"/>
+    <xacro:property name="chassis_back_mass" value="1.0"/>
+
+    <xacro:property name="chassis_front_length" value="0.095"/>
+    <xacro:property name="chassis_front_width" value="0.055"/>
+    <xacro:property name="chassis_front_height" value="0.03"/>
+    <xacro:property name="chassis_front_mass" value="1.0"/>
+
+    <xacro:property name="chassis_steer_length" value="0.025"/>
+    <xacro:property name="chassis_steer_width" value="0.003"/>
+    <xacro:property name="chassis_steer_height" value="0.025"/>
+    <xacro:property name="chassis_steer_mass" value="0.01"/>
+
+    <xacro:property name="chassis_steer_offset_x" value="0.048"/>
+    <xacro:property name="chassis_steer_offset_y" value="${chassis_front_width/2 + 0.008}"/>
+    <xacro:property name="chassis_steer_offset_z" value="0.015"/>
+    
+    <xacro:property name="wheel_radius" value="0.0325"/>
+    <xacro:property name="wheel_thickness" value="0.025"/>
+    <xacro:property name="wheel_mass" value="0.05"/>
+    
+    <xacro:property name="drive_wheel_offset_x" value="0.06"/>
+    <xacro:property name="drive_wheel_offset_y" value="${chassis_back_width/2 + wheel_thickness/2 + 0.003}"/>
+    <xacro:property name="drive_wheel_offset_z" value="0.012"/>
+
+    <xacro:property name="steer_wheel_offset_x" value="0"/>
+    <xacro:property name="steer_wheel_offset_y" value="${wheel_thickness/2 + chassis_steer_width}"/>
+    <xacro:property name="steer_wheel_offset_z" value="0"/>
+
+    <joint name="chassis_back_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="chassis_back" />
+        <origin xyz="-${drive_wheel_offset_x} 0 0" />
+    </joint>
+
+    <link name="chassis_back">
+        <visual>
+            <origin xyz="${chassis_back_length / 2} 0 ${chassis_back_height/2}" rpy="0 0 0" />
+            <geometry>
+                <box size="${chassis_back_length} ${chassis_back_width} ${chassis_back_height}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+    </link>
+
+    <joint name="chassis_front_joint" type="fixed">
+        <parent link="chassis_back" />
+        <child link="chassis_front" />
+        <origin xyz="${chassis_back_length} 0 0" />
+    </joint>
+
+    <link name="chassis_front">
+        <visual>
+            <origin xyz="${chassis_front_length/2} 0 ${chassis_front_height/2}" rpy="0 0 0" />
+            <geometry>
+                <box size="${chassis_front_length} ${chassis_front_width} ${chassis_front_height}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+    </link>
+
+    
+    <joint name="left_drive_wheel_joint" type="continuous">
+        <parent link="chassis_back" />
+        <child link="left_drive_wheel" />
+        <origin xyz="${drive_wheel_offset_x} ${drive_wheel_offset_y} ${drive_wheel_offset_z}" rpy="-${pi/2} 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="left_drive_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+    
+    <joint name="right_drive_wheel_joint" type="continuous">
+        <parent link="chassis_back" />
+        <child link="right_drive_wheel" />
+        <origin xyz="${drive_wheel_offset_x} -${drive_wheel_offset_y} ${drive_wheel_offset_z}" rpy="${pi/2} 0 0" />
+        <axis xyz="0 0 -1" />
+    </joint>
+
+    <link name="right_drive_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+    <joint name="left_chassis_steer_joint" type="revolute">
+        <parent link="chassis_front" />
+        <child link="left_chassis_steer" />
+        <origin xyz="${chassis_steer_offset_x} ${chassis_steer_offset_y} ${chassis_steer_offset_z}" />
+        <axis xyz="0 0 1" />
+        <limit lower="-${pi/4}" upper="${pi/4}" velocity="100" effort="100" />
+    </joint>
+
+    <link name="left_chassis_steer">
+        <visual>
+            <geometry>
+                <box size="${chassis_steer_length} ${chassis_steer_width} ${chassis_steer_height}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+    </link>
+
+    <joint name="right_chassis_steer_joint" type="revolute">
+        <parent link="chassis_front" />
+        <child link="right_chassis_steer" />
+        <origin xyz="${chassis_steer_offset_x} -${chassis_steer_offset_y} ${chassis_steer_offset_z}" />
+        <axis xyz="0 0 1" />
+        <limit lower="-${pi/4}" upper="${pi/4}" velocity="100" effort="100" />
+    </joint>
+
+    <link name="right_chassis_steer">
+        <visual>
+            <geometry>
+                <box size="${chassis_steer_length} ${chassis_steer_width} ${chassis_steer_height}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+    </link>
+
+    
+    <joint name="left_steer_wheel_joint" type="continuous">
+        <parent link="left_chassis_steer" />
+        <child link="left_steer_wheel" />
+        <origin xyz="${steer_wheel_offset_x} ${steer_wheel_offset_y} ${steer_wheel_offset_z}" rpy="-${pi/2} 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="left_steer_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+    
+    <joint name="right_steer_wheel_joint" type="continuous">
+        <parent link="right_chassis_steer" />
+        <child link="right_steer_wheel" />
+        <origin xyz="${steer_wheel_offset_x} -${steer_wheel_offset_y} ${steer_wheel_offset_z}" rpy="${pi/2} 0 0" />
+        <axis xyz="0 0 -1" />
+    </joint>
+
+    <link name="right_steer_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
+            </geometry>
+            <material name="black" />
+        </visual>
+    </link>
+
+</robot>
