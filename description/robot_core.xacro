@@ -111,6 +111,9 @@
             <origin xyz="${chassis_back_length / 2} 0 ${chassis_back_height/2}" rpy="0 0 0" />
         </xacro:inertial_box>
     </link>
+    <gazebo reference="chassis_back">
+        <material>Gazebo/White</material>
+    </gazebo>
 
     <!-- Chassis front -->
 
@@ -138,6 +141,9 @@
             <origin xyz="${chassis_front_length / 2} 0 ${chassis_front_height/2}" rpy="0 0 0" />
         </xacro:inertial_box>
     </link>
+    <gazebo reference="chassis_front">
+        <material>Gazebo/White</material>
+    </gazebo>
 
     <!-- Drive wheel left -->
 
@@ -164,6 +170,9 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_cylinder>
     </link>
+    <gazebo reference="left_drive_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
     
     <!-- Drive wheel right -->
 
@@ -190,6 +199,9 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_cylinder>
     </link>
+    <gazebo reference="right_drive_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
 
     
     <!-- Chassis steer left -->
@@ -220,6 +232,9 @@
             <origin xyz="${steer_wheel_offset_x} 0 0" rpy="0 0 0" />
         </xacro:inertial_box>
     </link>
+    <gazebo reference="left_chassis_steer">
+        <material>Gazebo/White</material>
+    </gazebo>
 
     <!-- Chassis steer right -->
 
@@ -249,6 +264,9 @@
             <origin xyz="${steer_wheel_offset_x} 0 0" rpy="0 0 0" />
         </xacro:inertial_box>
     </link>
+    <gazebo reference="right_chassis_steer">
+        <material>Gazebo/White</material>
+    </gazebo>
 
     
     <!-- Steer wheel left -->
@@ -276,6 +294,9 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_cylinder>
     </link>
+    <gazebo reference="left_steer_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
     
     <!-- Steer wheel right -->
 
@@ -302,6 +323,9 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_cylinder>
     </link>
+    <gazebo reference="right_steer_wheel">
+        <material>Gazebo/Black</material>
+    </gazebo>
 
 
     <!-- Camera tower pan -->
@@ -332,6 +356,9 @@
             <origin xyz="${-0.022 + camera_pan_length/2} 0 ${camera_pan_height/2}" />
         </xacro:inertial_box>
     </link>
+    <gazebo reference="camera_pan">
+        <material>Gazebo/White</material>
+    </gazebo>
 
     
     <!-- Camera tower tilt -->
@@ -362,6 +389,9 @@
             <origin xyz="${-0.014 + camera_tilt_length/2} 0 ${-0.017 + camera_tilt_height/2}" />
         </xacro:inertial_box>
     </link>
+    <gazebo reference="camera_tilt">
+        <material>Gazebo/White</material>
+    </gazebo>
 
     <!-- Grayscale sensor block -->
 
@@ -387,5 +417,8 @@
             <origin xyz="0 0 0" />
         </xacro:inertial_box>
     </link>
+    <gazebo reference="grayscale_block">
+        <material>Gazebo/White</material>
+    </gazebo>
 
 </robot>
