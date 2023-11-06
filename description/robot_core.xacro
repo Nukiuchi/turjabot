@@ -9,12 +9,12 @@
     <xacro:property name="chassis_back_length" value="0.1"/>
     <xacro:property name="chassis_back_width" value="0.082"/>
     <xacro:property name="chassis_back_height" value="0.12"/>
-    <xacro:property name="chassis_back_mass" value="1.0"/>
+    <xacro:property name="chassis_back_mass" value="0.2"/>
 
     <xacro:property name="chassis_front_length" value="0.095"/>
     <xacro:property name="chassis_front_width" value="0.055"/>
     <xacro:property name="chassis_front_height" value="0.03"/>
-    <xacro:property name="chassis_front_mass" value="1.0"/>
+    <xacro:property name="chassis_front_mass" value="0.1"/>
 
 
     <!-- Chassis steering parts -->
@@ -35,7 +35,7 @@
 
     <xacro:property name="wheel_radius" value="0.0325"/>
     <xacro:property name="wheel_thickness" value="0.025"/>
-    <xacro:property name="wheel_mass" value="0.05"/>
+    <xacro:property name="wheel_mass" value="0.02"/>
     
     <xacro:property name="drive_wheel_offset_x" value="0.06"/>
     <xacro:property name="drive_wheel_offset_y" value="${chassis_back_width/2 + wheel_thickness/2 + 0.003}"/>
@@ -51,7 +51,7 @@
     <xacro:property name="camera_pan_length" value="0.032"/>
     <xacro:property name="camera_pan_width" value="0.019"/>
     <xacro:property name="camera_pan_height" value="0.039"/>
-    <xacro:property name="camera_pan_mass" value="0.02"/>
+    <xacro:property name="camera_pan_mass" value="0.05"/>
 
     <xacro:property name="camera_pan_offset_x" value="${chassis_front_length - 0.005}"/>
     <xacro:property name="camera_pan_offset_y" value="0"/>
@@ -61,7 +61,7 @@
     <xacro:property name="camera_tilt_length" value="0.039"/>
     <xacro:property name="camera_tilt_width" value="0.039"/>
     <xacro:property name="camera_tilt_height" value="0.047"/>
-    <xacro:property name="camera_tilt_mass" value="0.02"/>
+    <xacro:property name="camera_tilt_mass" value="0.05"/>
 
     <xacro:property name="camera_tilt_offset_x" value="0"/>
     <xacro:property name="camera_tilt_offset_y" value="0"/>
@@ -76,7 +76,7 @@
     <xacro:property name="grayscale_block_length" value="0.025"/>
     <xacro:property name="grayscale_block_width" value="0.054"/>
     <xacro:property name="grayscale_block_height" value="0.007"/>
-    <xacro:property name="grayscale_block_mass" value="0.01"/>
+    <xacro:property name="grayscale_block_mass" value="0.02"/>
 
     <xacro:property name="grayscale_block_offset_x" value="${chassis_front_length + grayscale_block_length/2}"/>
     <xacro:property name="grayscale_block_offset_y" value="0"/>
@@ -107,6 +107,9 @@
                 <box size="${chassis_back_length} ${chassis_back_width} ${chassis_back_height}" />
             </geometry>
         </collision>
+        <xacro:inertial_box mass="${chassis_back_mass}" x="${chassis_back_length}" y="${chassis_back_width}" z="${chassis_back_height}">
+            <origin xyz="${chassis_back_length / 2} 0 ${chassis_back_height/2}" rpy="0 0 0" />
+        </xacro:inertial_box>
     </link>
 
     <!-- Chassis front -->
@@ -131,6 +134,9 @@
                 <box size="${chassis_front_length} ${chassis_front_width} ${chassis_front_height}" />
             </geometry>
         </collision>
+        <xacro:inertial_box mass="${chassis_front_mass}" x="${chassis_front_length}" y="${chassis_front_width}" z="${chassis_front_height}">
+            <origin xyz="${chassis_front_length / 2} 0 ${chassis_front_height/2}" rpy="0 0 0" />
+        </xacro:inertial_box>
     </link>
 
     <!-- Drive wheel left -->
@@ -154,6 +160,9 @@
                 <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
             </geometry>
         </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
     </link>
     
     <!-- Drive wheel right -->
@@ -177,6 +186,9 @@
                 <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
             </geometry>
         </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
     </link>
 
     
@@ -204,6 +216,9 @@
                 <box size="${chassis_steer_length} ${chassis_steer_width} ${chassis_steer_height}" />
             </geometry>
         </collision>
+        <xacro:inertial_box mass="${chassis_steer_mass}" x="${chassis_steer_length}" y="${chassis_steer_width}" z="${chassis_steer_height}">
+            <origin xyz="${steer_wheel_offset_x} 0 0" rpy="0 0 0" />
+        </xacro:inertial_box>
     </link>
 
     <!-- Chassis steer right -->
@@ -230,6 +245,9 @@
                 <box size="${chassis_steer_length} ${chassis_steer_width} ${chassis_steer_height}" />
             </geometry>
         </collision>
+        <xacro:inertial_box mass="${chassis_steer_mass}" x="${chassis_steer_length}" y="${chassis_steer_width}" z="${chassis_steer_height}">
+            <origin xyz="${steer_wheel_offset_x} 0 0" rpy="0 0 0" />
+        </xacro:inertial_box>
     </link>
 
     
@@ -254,6 +272,9 @@
                 <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
             </geometry>
         </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
     </link>
     
     <!-- Steer wheel right -->
@@ -277,6 +298,9 @@
                 <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
             </geometry>
         </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
     </link>
 
 
@@ -304,6 +328,9 @@
                 <box size="${camera_pan_length} ${camera_pan_width} ${camera_pan_height}" />
             </geometry>
         </collision>
+        <xacro:inertial_box mass="${camera_pan_mass}" x="${camera_pan_length}" y="${camera_pan_width}" z="${camera_pan_height}">
+            <origin xyz="${-0.022 + camera_pan_length/2} 0 ${camera_pan_height/2}" />
+        </xacro:inertial_box>
     </link>
 
     
@@ -331,6 +358,9 @@
                 <box size="${camera_tilt_length} ${camera_tilt_width} ${camera_tilt_height}" />
             </geometry>
         </collision>
+        <xacro:inertial_box mass="${camera_tilt_mass}" x="${camera_tilt_length}" y="${camera_tilt_width}" z="${camera_tilt_height}">
+            <origin xyz="${-0.014 + camera_tilt_length/2} 0 ${-0.017 + camera_tilt_height/2}" />
+        </xacro:inertial_box>
     </link>
 
     <!-- Grayscale sensor block -->
@@ -353,6 +383,9 @@
                 <box size="${grayscale_block_length} ${grayscale_block_width} ${grayscale_block_height}" />
             </geometry>
         </collision>
+        <xacro:inertial_box mass="${grayscale_block_mass}" x="${grayscale_block_length}" y="${grayscale_block_width}" z="${grayscale_block_height}">
+            <origin xyz="0 0 0" />
+        </xacro:inertial_box>
     </link>
 
 </robot>
