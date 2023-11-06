@@ -3,6 +3,9 @@
 
     <link name="base_link"></link>
 
+
+    <!-- Chassis back and front parts -->
+
     <xacro:property name="chassis_back_length" value="0.1"/>
     <xacro:property name="chassis_back_width" value="0.082"/>
     <xacro:property name="chassis_back_height" value="0.12"/>
@@ -13,6 +16,9 @@
     <xacro:property name="chassis_front_height" value="0.03"/>
     <xacro:property name="chassis_front_mass" value="1.0"/>
 
+
+    <!-- Chassis steering parts -->
+
     <xacro:property name="chassis_steer_length" value="0.025"/>
     <xacro:property name="chassis_steer_width" value="0.003"/>
     <xacro:property name="chassis_steer_height" value="0.025"/>
@@ -22,6 +28,11 @@
     <xacro:property name="chassis_steer_offset_y" value="${chassis_front_width/2 + 0.008}"/>
     <xacro:property name="chassis_steer_offset_z" value="0.015"/>
     
+    <xacro:property name="steer_turnlimit" value="${pi/6}"/>
+
+
+    <!-- Wheel parts -->
+
     <xacro:property name="wheel_radius" value="0.0325"/>
     <xacro:property name="wheel_thickness" value="0.025"/>
     <xacro:property name="wheel_mass" value="0.05"/>
@@ -30,9 +41,51 @@
     <xacro:property name="drive_wheel_offset_y" value="${chassis_back_width/2 + wheel_thickness/2 + 0.003}"/>
     <xacro:property name="drive_wheel_offset_z" value="0.012"/>
 
-    <xacro:property name="steer_wheel_offset_x" value="0"/>
+    <xacro:property name="steer_wheel_offset_x" value="0.008"/>
     <xacro:property name="steer_wheel_offset_y" value="${wheel_thickness/2 + chassis_steer_width}"/>
     <xacro:property name="steer_wheel_offset_z" value="0"/>
+
+
+    <!-- Camera tower parts -->
+
+    <xacro:property name="camera_pan_length" value="0.032"/>
+    <xacro:property name="camera_pan_width" value="0.019"/>
+    <xacro:property name="camera_pan_height" value="0.039"/>
+    <xacro:property name="camera_pan_mass" value="0.02"/>
+
+    <xacro:property name="camera_pan_offset_x" value="${chassis_front_length - 0.005}"/>
+    <xacro:property name="camera_pan_offset_y" value="0"/>
+    <xacro:property name="camera_pan_offset_z" value="${chassis_front_height + 0.007}"/>
+
+
+    <xacro:property name="camera_tilt_length" value="0.039"/>
+    <xacro:property name="camera_tilt_width" value="0.039"/>
+    <xacro:property name="camera_tilt_height" value="0.047"/>
+    <xacro:property name="camera_tilt_mass" value="0.02"/>
+
+    <xacro:property name="camera_tilt_offset_x" value="0"/>
+    <xacro:property name="camera_tilt_offset_y" value="0"/>
+    <xacro:property name="camera_tilt_offset_z" value="0.03"/>
+
+
+    <xacro:property name="camera_turnlimit" value="${pi/6}"/>
+
+
+    <!-- Grayscale sensor block -->
+
+    <xacro:property name="grayscale_block_length" value="0.025"/>
+    <xacro:property name="grayscale_block_width" value="0.054"/>
+    <xacro:property name="grayscale_block_height" value="0.007"/>
+    <xacro:property name="grayscale_block_mass" value="0.01"/>
+
+    <xacro:property name="grayscale_block_offset_x" value="${chassis_front_length + grayscale_block_length/2}"/>
+    <xacro:property name="grayscale_block_offset_y" value="0"/>
+    <xacro:property name="grayscale_block_offset_z" value="0"/>
+
+
+    <!-- Joints and links -->
+
+    <!-- Chassis back -->
 
     <joint name="chassis_back_joint" type="fixed">
         <parent link="base_link" />
@@ -48,7 +101,15 @@
             </geometry>
             <material name="white" />
         </visual>
+        <collision>
+            <origin xyz="${chassis_back_length / 2} 0 ${chassis_back_height/2}" rpy="0 0 0" />
+            <geometry>
+                <box size="${chassis_back_length} ${chassis_back_width} ${chassis_back_height}" />
+            </geometry>
+        </collision>
     </link>
+
+    <!-- Chassis front -->
 
     <joint name="chassis_front_joint" type="fixed">
         <parent link="chassis_back" />
@@ -64,9 +125,16 @@
             </geometry>
             <material name="white" />
         </visual>
+        <collision>
+            <origin xyz="${chassis_front_length/2} 0 ${chassis_front_height/2}" rpy="0 0 0" />
+            <geometry>
+                <box size="${chassis_front_length} ${chassis_front_width} ${chassis_front_height}" />
+            </geometry>
+        </collision>
     </link>
 
-    
+    <!-- Drive wheel left -->
+
     <joint name="left_drive_wheel_joint" type="continuous">
         <parent link="chassis_back" />
         <child link="left_drive_wheel" />
@@ -81,8 +149,15 @@
             </geometry>
             <material name="black" />
         </visual>
+        <collision>
+            <geometry>
+                <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
+            </geometry>
+        </collision>
     </link>
     
+    <!-- Drive wheel right -->
+
     <joint name="right_drive_wheel_joint" type="continuous">
         <parent link="chassis_back" />
         <child link="right_drive_wheel" />
@@ -97,43 +172,69 @@
             </geometry>
             <material name="black" />
         </visual>
+        <collision>
+            <geometry>
+                <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
+            </geometry>
+        </collision>
     </link>
+
+    
+    <!-- Chassis steer left -->
 
     <joint name="left_chassis_steer_joint" type="revolute">
         <parent link="chassis_front" />
         <child link="left_chassis_steer" />
         <origin xyz="${chassis_steer_offset_x} ${chassis_steer_offset_y} ${chassis_steer_offset_z}" />
         <axis xyz="0 0 1" />
-        <limit lower="-${pi/4}" upper="${pi/4}" velocity="100" effort="100" />
+        <limit lower="-${steer_turnlimit}" upper="${steer_turnlimit}" velocity="100" effort="100" />
     </joint>
 
     <link name="left_chassis_steer">
         <visual>
+            <origin xyz="${steer_wheel_offset_x} 0 0" />
             <geometry>
                 <box size="${chassis_steer_length} ${chassis_steer_width} ${chassis_steer_height}" />
             </geometry>
             <material name="white" />
         </visual>
+        <collision>
+            <origin xyz="${steer_wheel_offset_x} 0 0" />
+            <geometry>
+                <box size="${chassis_steer_length} ${chassis_steer_width} ${chassis_steer_height}" />
+            </geometry>
+        </collision>
     </link>
+
+    <!-- Chassis steer right -->
 
     <joint name="right_chassis_steer_joint" type="revolute">
         <parent link="chassis_front" />
         <child link="right_chassis_steer" />
         <origin xyz="${chassis_steer_offset_x} -${chassis_steer_offset_y} ${chassis_steer_offset_z}" />
         <axis xyz="0 0 1" />
-        <limit lower="-${pi/4}" upper="${pi/4}" velocity="100" effort="100" />
+        <limit lower="-${steer_turnlimit}" upper="${steer_turnlimit}" velocity="100" effort="100" />
     </joint>
 
     <link name="right_chassis_steer">
         <visual>
+            <origin xyz="${steer_wheel_offset_x} 0 0" />
             <geometry>
                 <box size="${chassis_steer_length} ${chassis_steer_width} ${chassis_steer_height}" />
             </geometry>
             <material name="white" />
         </visual>
+        <collision>
+            <origin xyz="${steer_wheel_offset_x} 0 0" />
+            <geometry>
+                <box size="${chassis_steer_length} ${chassis_steer_width} ${chassis_steer_height}" />
+            </geometry>
+        </collision>
     </link>
 
     
+    <!-- Steer wheel left -->
+
     <joint name="left_steer_wheel_joint" type="continuous">
         <parent link="left_chassis_steer" />
         <child link="left_steer_wheel" />
@@ -148,8 +249,15 @@
             </geometry>
             <material name="black" />
         </visual>
+        <collision>
+            <geometry>
+                <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
+            </geometry>
+        </collision>
     </link>
     
+    <!-- Steer wheel right -->
+
     <joint name="right_steer_wheel_joint" type="continuous">
         <parent link="right_chassis_steer" />
         <child link="right_steer_wheel" />
@@ -164,6 +272,87 @@
             </geometry>
             <material name="black" />
         </visual>
+        <collision>
+            <geometry>
+                <cylinder length="${wheel_thickness}" radius="${wheel_radius}" />
+            </geometry>
+        </collision>
+    </link>
+
+
+    <!-- Camera tower pan -->
+
+    <joint name="camera_pan_joint" type="revolute">
+        <parent link="chassis_front" />
+        <child link="camera_pan" />
+        <origin xyz="${camera_pan_offset_x} ${camera_pan_offset_y} ${camera_pan_offset_z}" rpy="0 0 0" />
+        <axis xyz="0 0 1" />
+        <limit lower="-${camera_turnlimit}" upper="${camera_turnlimit}" velocity="100" effort="100" />
+    </joint>
+
+    <link name="camera_pan">
+        <visual>
+            <origin xyz="${-0.022 + camera_pan_length/2} 0 ${camera_pan_height/2}" />
+            <geometry>
+                <box size="${camera_pan_length} ${camera_pan_width} ${camera_pan_height}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+        <collision>
+            <origin xyz="${-0.022 + camera_pan_length/2} 0 ${camera_pan_height/2}" />
+            <geometry>
+                <box size="${camera_pan_length} ${camera_pan_width} ${camera_pan_height}" />
+            </geometry>
+        </collision>
+    </link>
+
+    
+    <!-- Camera tower tilt -->
+
+    <joint name="camera_tilt_joint" type="revolute">
+        <parent link="camera_pan" />
+        <child link="camera_tilt" />
+        <origin xyz="${camera_tilt_offset_x} ${camera_tilt_offset_y} ${camera_tilt_offset_z}" rpy="0 0 0" />
+        <axis xyz="0 -1 0" />
+        <limit lower="-${camera_turnlimit}" upper="${camera_turnlimit}" velocity="100" effort="100" />
+    </joint>
+
+    <link name="camera_tilt">
+        <visual>
+            <origin xyz="${-0.014 + camera_tilt_length/2} 0 ${-0.017 + camera_tilt_height/2}" />
+            <geometry>
+                <box size="${camera_tilt_length} ${camera_tilt_width} ${camera_tilt_height}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+        <collision>
+            <origin xyz="${-0.014 + camera_tilt_length/2} 0 ${-0.017 + camera_tilt_height/2}" />
+            <geometry>
+                <box size="${camera_tilt_length} ${camera_tilt_width} ${camera_tilt_height}" />
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Grayscale sensor block -->
+
+    <joint name="grayscale_block_joint" type="fixed">
+        <parent link="chassis_front" />
+        <child link="grayscale_block" />
+        <origin xyz="${grayscale_block_offset_x} ${grayscale_block_offset_y} ${grayscale_block_offset_z}" rpy="0 0 0" />
+    </joint>
+
+    <link name="grayscale_block">
+        <visual>
+            <geometry>
+                <box size="${grayscale_block_length} ${grayscale_block_width} ${grayscale_block_height}" />
+            </geometry>
+            <material name="white" />
+        </visual>
+        <collision>
+            <geometry>
+                <box size="${grayscale_block_length} ${grayscale_block_width} ${grayscale_block_height}" />
+            </geometry>
+        </collision>
     </link>
 
 </robot>
