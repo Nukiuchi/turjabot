@@ -177,6 +177,7 @@
     <!-- Drive wheel right -->
 
     <joint name="right_drive_wheel_joint" type="continuous">
+        <mimic joint="left_drive_wheel_joint"/>
         <parent link="chassis_back" />
         <child link="right_drive_wheel" />
         <origin xyz="${drive_wheel_offset_x} -${drive_wheel_offset_y} ${drive_wheel_offset_z}" rpy="${pi/2} 0 0" />
@@ -239,6 +240,7 @@
     <!-- Chassis steer right -->
 
     <joint name="right_chassis_steer_joint" type="revolute">
+        <mimic joint="left_chassis_steer_joint"/>
         <parent link="chassis_front" />
         <child link="right_chassis_steer" />
         <origin xyz="${chassis_steer_offset_x} -${chassis_steer_offset_y} ${chassis_steer_offset_z}" />

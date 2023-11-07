@@ -1,0 +1,37 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 30
+    use_sim_time: true
+
+    acker_cont:
+      type: bicycle_steering_controller/BicycleSteeringController
+    
+    joint_broad:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+acker_cont:
+  ros__parameters:
+
+    publish_rate: 30.0 # You can set this higher than the controller manager update rate, but it will be throttled
+    base_frame_id: base_link
+
+    front_steering: true
+    
+    rear_wheels_names: ['left_drive_wheel_joint', 'right_drive_wheel_joint']
+    front_wheels_names: ['left_chassis_steer_joint', 'right_chassis_steer_joint']
+    
+    left_wheel_names: ['left_drive_wheel_joint']
+    right_wheel_names: ['right_drive_wheel_joint']
+
+    front_wheel_track: 0.106
+    rear_wheel_track: 0.114
+    wheelbase: 0.096
+    front_wheel_radius: 0.034
+    rear_wheel_radius: 0.034
+    
+    wheel_separation: 0.096
+    wheel_radius: 0.034
+
+    position_feedback: false
+
+    use_stamped_vel: false
