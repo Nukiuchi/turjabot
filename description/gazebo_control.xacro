@@ -4,13 +4,9 @@
     <gazebo>
 
         <plugin name="gazebo_ros_ackermann_drive" filename="libgazebo_ros_ackermann_drive.so">
-<!-- 
             <ros>
-              <namespace>demo</namespace>
-              <remapping>cmd_vel:=cmd_demo</remapping>
-              <remapping>odom:=odom_demo</remapping>
-              <remapping>distance:=distance_demo</remapping>
-            </ros> -->
+              <namespace>turjabot</namespace>
+            </ros>
            
             <update_rate>100.0</update_rate>
           
@@ -34,13 +30,13 @@
             <max_speed>20</max_speed>
           
             <!-- PID tuning -->
-            <!-- <left_steering_pid_gain>1500 0 1</left_steering_pid_gain>
+            <left_steering_pid_gain>1500 0 1</left_steering_pid_gain>
             <left_steering_i_range>0 0</left_steering_i_range>
             <right_steering_pid_gain>1500 0 1</right_steering_pid_gain>
             <right_steering_i_range>0 0</right_steering_i_range>
             <linear_velocity_pid_gain>1000 0 1</linear_velocity_pid_gain>
             <linear_velocity_i_range>0 0</linear_velocity_i_range>
-            -->
+            
             <!-- output -->
             <publish_odom>true</publish_odom>
             <publish_odom_tf>true</publish_odom_tf>

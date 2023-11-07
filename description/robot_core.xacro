@@ -203,33 +203,6 @@
     <gazebo reference="right_drive_wheel">
         <material>Gazebo/Black</material>
     </gazebo>
-
-    <joint name="traction_wheel_joint" type="continuous">
-        <parent link="chassis_back" />
-        <child link="traction_wheel" />
-        <origin xyz="${drive_wheel_offset_x} -${drive_wheel_offset_y} ${drive_wheel_offset_z}" rpy="${pi/2} 0 0" />
-        <axis xyz="0 0 -1" />
-    </joint>
-
-    <link name="traction_wheel">
-        <visual>
-            <geometry>
-                <cylinder length="0.01" radius="0.01" />
-            </geometry>
-            <material name="black" />
-        </visual>
-        <collision>
-            <geometry>
-                <sphere radius="0.01" />
-            </geometry>
-        </collision>
-        <xacro:inertial_cylinder mass="0.001" length="0.01" radius="0.01">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_cylinder>
-    </link>
-    <gazebo reference="right_drive_wheel">
-        <material>Gazebo/Black</material>
-    </gazebo>
     
     <!-- Chassis steer left -->
 
@@ -296,34 +269,6 @@
         <material>Gazebo/White</material>
     </gazebo>
 
-    
-    <joint name="steering_joint" type="revolute">
-        <parent link="chassis_front" />
-        <child link="steering_link" />
-        <origin xyz="${drive_wheel_offset_x} -${drive_wheel_offset_y} ${drive_wheel_offset_z}" rpy="${pi/2} 0 0" />
-        <axis xyz="0 0 1" />
-        <limit lower="-${steer_turnlimit}" upper="${steer_turnlimit}" velocity="100" effort="10000" />
-    </joint>
-
-    <link name="steering_link">
-        <visual>
-            <geometry>
-                <cylinder length="0.01" radius="0.01" />
-            </geometry>
-            <material name="black" />
-        </visual>
-        <collision>
-            <geometry>
-                <sphere radius="0.01" />
-            </geometry>
-        </collision>
-        <xacro:inertial_cylinder mass="0.001" length="0.01" radius="0.01">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_cylinder>
-    </link>
-    <gazebo reference="right_drive_wheel">
-        <material>Gazebo/Black</material>
-    </gazebo>
     
     <!-- Steer wheel left -->
 

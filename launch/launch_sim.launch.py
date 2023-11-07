@@ -8,7 +8,7 @@ from launch.actions import IncludeLaunchDescription, ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
  
 from launch_ros.actions import Node
- 
+import launch_ros
  
  
 def generate_launch_description():
@@ -18,7 +18,7 @@ def generate_launch_description():
     # !!! MAKE SURE YOU SET THE PACKAGE NAME CORRECTLY !!!
  
     package_name='turjabot' #<--- CHANGE ME
- 
+    
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory(package_name),'launch','rsp.launch.py'
@@ -68,13 +68,18 @@ def generate_launch_description():
              'tricycle_cont'],
         output='screen'
     )
+    robot_localization_node = Node(
+       package='robot_localization',
+       executable='ekf_node',
+       name='ekf_filter_node',
+       output='screen',
+       parameters=[os.path.join(get_package_share_directory(package_name), 'config/ekf.yaml'), {'use_sim_time': True}]
+    )
  
     # Launch them all!
     return LaunchDescription([
         rsp,
         gazebo,
         spawn_entity,
-        load_joint_state_controller,
-        load_tricycle_controller,
-        load_ackermann_controller
+        robot_localization_node
     ])
