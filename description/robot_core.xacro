@@ -362,7 +362,7 @@
     </gazebo>
 
     
-    <!-- Camera tower tilt -->
+    
 
     <joint name="camera_tilt_joint" type="revolute">
         <parent link="camera_pan" />

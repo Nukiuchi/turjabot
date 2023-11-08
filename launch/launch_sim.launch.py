@@ -57,15 +57,14 @@ def generate_launch_description():
              'joint_broad'],
         output='screen'
     )
-
-    load_ackermann_controller = ExecuteProcess(
+    load_move_controller = ExecuteProcess(
         cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
-             'acker_cont'],
+             'robot_move_controller'],
         output='screen'
     )
-    load_tricycle_controller = ExecuteProcess(
+    load_camera_controller = ExecuteProcess(
         cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
-             'tricycle_cont'],
+             'robot_cam_controller'],
         output='screen'
     )
     robot_localization_node = Node(
@@ -81,5 +80,7 @@ def generate_launch_description():
         rsp,
         gazebo,
         spawn_entity,
-        robot_localization_node
+        load_joint_state_controller,
+        load_move_controller,
+        load_camera_controller
     ])
