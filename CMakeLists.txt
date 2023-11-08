@@ -37,7 +37,7 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY config description launch worlds turjabot
+  DIRECTORY config description launch worlds
   DESTINATION share/${PROJECT_NAME}
 )
 
@@ -47,8 +47,8 @@ ament_python_install_package(${PROJECT_NAME})
 
 # Install Python executables
 install(PROGRAMS
+  scripts/followmouse.py
   scripts/actionservice.py
-  scripts/jointtopic.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

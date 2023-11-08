@@ -335,7 +335,7 @@
         <parent link="chassis_front" />
         <child link="camera_pan" />
         <origin xyz="${camera_pan_offset_x} ${camera_pan_offset_y} ${camera_pan_offset_z}" rpy="0 0 0" />
-        <axis xyz="0 0 1" />
+        <axis xyz="0 0 -1" />
         <limit lower="-${camera_turnlimit}" upper="${camera_turnlimit}" velocity="100" effort="100" />
     </joint>
 
@@ -368,7 +368,7 @@
         <parent link="camera_pan" />
         <child link="camera_tilt" />
         <origin xyz="${camera_tilt_offset_x} ${camera_tilt_offset_y} ${camera_tilt_offset_z}" rpy="0 0 0" />
-        <axis xyz="0 -1 0" />
+        <axis xyz="0 1 0" />
         <limit lower="-${camera_turnlimit}" upper="${camera_turnlimit}" velocity="100" effort="100" />
     </joint>
 
