@@ -5,7 +5,8 @@
             <plugin>hw_turjabot/TurjabotHardware</plugin>
             <param name="left_drive_wheel_name">left_drive_wheel_joint</param>
             <param name="right_drive_wheel_name">right_drive_wheel_joint</param>
-            <param name="steer_wheel_name">left_chassis_steer_joint</param>
+            <param name="left_steer_wheel_name">left_chassis_steer_joint</param>
+            <param name="right_steer_wheel_name">right_chassis_steer_joint</param>
             <param name="camera_pan_name">camera_pan_joint</param>
             <param name="camera_tilt_name">camera_tilt_joint</param>
             <param name="enc_counts_per_rev">1280</param>

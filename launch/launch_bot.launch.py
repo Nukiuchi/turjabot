@@ -39,7 +39,7 @@ def generate_launch_description():
         ],
     )
  
-    delayed_controller_manager = TimerAction(period=15.0,actions=[controller_manager])
+    delayed_controller_manager = TimerAction(period=5.0,actions=[controller_manager])
  
     # Include the Gazebo launch file, provided by the gazebo_ros package
     # gazebo_params_path = os.path.join(
